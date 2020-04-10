@@ -7,9 +7,7 @@ import (
 	"github.com/kovetskiy/lorg"
 )
 
-var (
-	logger = lorg.NewDiscarder()
-)
+var logger = lorg.NewDiscarder()
 
 // Processable interface must be implemented for processing task by thread
 // pool.
@@ -30,9 +28,9 @@ func SetLogger(log lorg.Logger) {
 }
 
 // New creates completely ready thread pool that can spawn threads.
-func New() *ThreadPool {
+func New(queueSize int) *ThreadPool {
 	pool := &ThreadPool{
-		queue:   make(chan Processable),
+		queue:   make(chan Processable, queueSize),
 		threads: &sync.WaitGroup{},
 	}
 
