@@ -15,6 +15,18 @@ type Processable interface {
 	Process()
 }
 
+type dummyProc struct {
+	fn func()
+}
+
+func (proc dummyProc) Process() {
+	proc.fn()
+}
+
+func ProcFunc(fn func()) Processable {
+	return dummyProc{fn: fn}
+}
+
 // ThreadPool have internal queue that actually is a channel.
 type ThreadPool struct {
 	queue    chan Processable
